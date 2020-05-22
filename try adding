@@ -1,0 +1,80 @@
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+class student {
+private:
+	char password[10] = { "88888888" };
+	double grade[21] = { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 };
+public:
+	string name;//名字
+	string id;//学号
+	long long account;//账号
+	void setgrade(const double gradex, int n)
+	{
+		if (n <= 20)grade[n] = gradex;
+	}
+	void copygrade(double *gra) {     //用来把分数拷贝下来存到其他数组
+		for (int i = 0; i < 21;i++) {
+			gra[i] = grade[i];
+		}
+	}
+	student() {                //构造函数
+		name = ("student0");
+		id = ("null");
+		account = 0;
+	}
+};
+
+student A[10];  //对象数组
+
+class interface {
+public:
+	student getaccount(long long account){    //返回账号对应的对象
+		for (int i = 0; i < sizeof(A) / sizeof(student); i++) {
+			if (account == A[i].account)
+				return A[i];
+		}
+	}
+
+	void showaccount(long long account) {    //输出账号及其名字，id，目前有的分数
+		int k = 0;
+		for (int i = 0; i < sizeof(A) / sizeof(student); i++) {
+			if (account == A[i].account) {k = i;break;}
+		}
+		double gra[21] = { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 };
+		A[k].copygrade(gra);
+		cout << "account: " << A[k].account << endl;
+		cout << "name: " << A[k].name << endl;
+		cout << "id: " << A[k].id << endl;
+		cout << "grade: " << endl;
+		for (int i = 0; gra[i] != -1; i++) {
+			cout << gra[i] << " ";
+		}
+		cout << endl;
+	}
+};
+
+void main(){
+	A[0].account = 123456;
+	A[0].id = "2017001";
+	A[0].name = "haha1";
+	A[0].setgrade(99, 0);
+	A[0].setgrade(98, 1); 
+	A[0].setgrade(97, 2);
+
+	A[1].account = 654321;
+	A[1].id = "2017002";
+	A[1].name = "wowo2";
+	A[1].setgrade(39, 0);
+	A[1].setgrade(28, 1);
+	A[1].setgrade(17, 2);
+
+	interface interf;
+	student b=interf.getaccount(123456);
+	cout << b.id << endl << b.name << endl;
+	cout << endl << endl<<endl;
+	interf.showaccount(654321);
+	system("pause");
+}
